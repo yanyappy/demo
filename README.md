@@ -1,1 +1,1 @@
-this demo is only used for personla test.
+this demo is only used for personal test.
