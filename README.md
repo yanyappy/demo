@@ -1,1 +1,1 @@
-this demo is only used for personla website test.
+this demo is only used for personla test.
