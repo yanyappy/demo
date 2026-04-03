@@ -1,62 +1,857 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <title>Portfolio</title>
+    <title>鄢光平 - 个人主页</title>
+    <style>
+        /* --- 全局样式 --- */
+        :root {
+            --primary-color: #07c160;
+            --secondary-color: #1890ff;
+            --text-color: #333;
+            --text-light: #666;
+            --bg-color: #f3f4f6;
+            --card-bg: #ffffff;
+            --border-color: #e5e7eb;
+            --shadow: 0 10px 25px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+        }
+
+        [data-theme="dark"] {
+            --text-color: #e5e7eb;
+            --text-light: #b3b3b3;
+            --bg-color: #1a1a1a;
+            --card-bg: #2d2d2d;
+            --border-color: #404040;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: var(--transition);
+        }
+
+        /* --- 导航栏 --- */
+        .navbar {
+            background-color: var(--card-bg);
+            box-shadow: var(--shadow);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: var(--transition);
+        }
+
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .navbar-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(20deg);
+        }
+
+        /* --- 主容器 --- */
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* --- 英雄部分 --- */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            border-radius: 20px;
+            padding: 60px 40px;
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            box-shadow: var(--shadow);
+            animation: slideInDown 0.6s ease;
+        }
+
+        .avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid white;
+            object-fit: cover;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: var(--transition);
+        }
+
+        .avatar:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin: 15px 0;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .hero .tagline {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+
+        .bio {
+            font-size: 1rem;
+            opacity: 0.95;
+            max-width: 600px;
+            margin: 0 auto;
+            animation: fadeInUp 0.8s ease 0.6s both;
+        }
+
+        /* --- Tab导航 --- */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 40px;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeIn 0.8s ease 0.8s both;
+        }
+
+        .tab-btn {
+            background-color: var(--card-bg);
+            border: 2px solid var(--border-color);
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--text-color);
+        }
+
+        .tab-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .tab-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        /* --- Tab内容 --- */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* --- 卡片网格 --- */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            border-color: var(--primary-color);
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .card-subtitle {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .card-desc {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .tag {
+            background-color: rgba(7, 193, 96, 0.15);
+            color: var(--primary-color);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+
+        /* --- 技能部分 --- */
+        .skill-item {
+            margin-bottom: 25px;
+        }
+
+        .skill-name {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .skill-bar {
+            background-color: var(--border-color);
+            height: 10px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .skill-progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: 10px;
+            transition: width 1s ease;
+        }
+
+        /* --- 社交链接 --- */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .social-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--card-bg);
+            border: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .social-btn:hover {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+            transform: translateY(-5px);
+        }
+
+        /* --- 按钮 --- */
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 4px 14px rgba(7, 193, 96, 0.4);
+        }
+
+        .btn-primary:hover {
+            background-color: #06ad56;
+            transform: scale(1.05);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            border: 2px solid var(--border-color);
+            color: var(--text-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--card-bg);
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        /* --- 统计数据 --- */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .stat-label {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        /* --- 模态框 --- */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            max-width: 90%;
+            animation: zoomIn 0.3s ease;
+        }
+
+        .qrcode-img {
+            width: 200px;
+            height: 200px;
+            object-fit: contain;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .close-btn {
+            float: right;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: var(--transition);
+        }
+
+        .close-btn:hover {
+            color: var(--text-color);
+        }
+
+        /* --- 页脚 --- */
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--text-light);
+            border-top: 1px solid var(--border-color);
+            margin-top: 60px;
+        }
+
+        /* --- 动画 --- */
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes zoomIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* --- 响应式设计 --- */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 40px 20px;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .navbar-content {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .tabs {
+                gap: 5px;
+            }
+
+            .tab-btn {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <nav>
-        <ul>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#skills">Skills</a></li>
-            <li><a href="#achievements">Achievements</a></li>
-            <li><a href="#contact">Contact</a></li>
-            <li><button id="dark-mode-toggle">Toggle Dark Mode</button></li>
-        </ul>
+
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="navbar-title">🌟 鄢光平</div>
+            <div class="navbar-controls">
+                <button class="theme-toggle" onclick="toggleTheme()" title="切换主题">🌙</button>
+            </div>
+        </div>
     </nav>
-    <section id="hero">
-        <h1>Welcome to My Portfolio</h1>
-    </section>
-    <section id="projects">
-        <h2>Projects</h2>
-        <!-- Project details here -->
-    </section>
-    <section id="skills">
-        <h2>Skills</h2>
-        <div class="skill-bar">
-            <label for="skill1">HTML</label>
-            <progress id="skill1" value="80" max="100"></progress>
+
+    <!-- 主容器 -->
+    <div class="container">
+
+        <!-- 英雄部分 -->
+        <div class="hero">
+            <img src="logo.png" alt="个人头像" class="avatar">
+            <h1>你好，我是 鄢光平</h1>
+            <p class="tagline">🚀 热爱生活 · 💻 探索技术 · ✍️ 记录美好</p>
+            <p class="bio">
+                充满好奇心的探索者，专注于 <b>个人创作</b> 与 <b>AI探索</b>。
+                相信技术可以改变生活，热爱分享知识和经验！
+            </p>
         </div>
-        <div class="skill-bar">
-            <label for="skill2">CSS</label>
-            <progress id="skill2" value="75" max="100"></progress>
+
+        <!-- 统计数据 -->
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-number">50+</div>
+                <div class="stat-label">项目完成</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">100K+</div>
+                <div class="stat-label">粉丝关注</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">200+</div>
+                <div class="stat-label">文章发布</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">8+</div>
+                <div class="stat-label">年工作经验</div>
+            </div>
         </div>
-        <div class="skill-bar">
-            <label for="skill3">JavaScript</label>
-            <progress id="skill3" value="70" max="100"></progress>
+
+        <!-- Tab导航 -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('projects')">📁 项目展示</button>
+            <button class="tab-btn" onclick="switchTab('skills')">🎯 技能专长</button>
+            <button class="tab-btn" onclick="switchTab('achievements')">🏆 成就荣誉</button>
+            <button class="tab-btn" onclick="switchTab('contact')">💬 联系方式</button>
         </div>
-    </section>
-    <section id="achievements">
-        <h2>Achievements</h2>
-        <!-- Achievements listing here -->
-    </section>
-    <section id="contact">
-        <h2>Contact</h2>
-        <!-- Contact form here -->
-    </section>
+
+        <!-- 项目展示 -->
+        <div id="projects" class="tab-content active">
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-title">🤖 AI助手系统</div>
+                    <div class="card-subtitle">智能对话平台</div>
+                    <div class="card-desc">
+                        基于大型语言模型的智能对话系统，支持多轮会话、知识库集成和个性化回复。
+                    </div>
+                    <div class="card-tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">NLP</span>
+                        <span class="tag">ML</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">📱 移动应用开发</div>
+                    <div class="card-subtitle">跨平台解决方案</div>
+                    <div class="card-desc">
+                        使用React Native开发的高性能移动应用，支持iOS和Android双平台。
+                    </div>
+                    <div class="card-tags">
+                        <span class="tag">React</span>
+                        <span class="tag">JavaScript</span>
+                        <span class="tag">UI/UX</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">🌐 Web全栈项目</div>
+                    <div class="card-subtitle">企业级平台</div>
+                    <div class="card-desc">
+                        从前端到后端的完整解决方案，包括用户认证、数据管理和实时通知。
+                    </div>
+                    <div class="card-tags">
+                        <span class="tag">Node.js</span>
+                        <span class="tag">Vue</span>
+                        <span class="tag">Docker</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 技能专长 -->
+        <div id="skills" class="tab-content">
+            <div class="cards-grid" style="grid-template-columns: 1fr;">
+                <div class="card">
+                    <div style="max-width: 100%;">
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>Python编程</span>
+                                <span>95%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 95%"></div>
+                            </div>
+                        </div>
+
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>前端开发 (React/Vue)</span>
+                                <span>90%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 90%"></div>
+                            </div>
+                        </div>
+
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>AI/机器学习</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 85%"></div>
+                            </div>
+                        </div>
+
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>数据库设计</span>
+                                <span>88%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 88%"></div>
+                            </div>
+                        </div>
+
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>DevOps/云服务</span>
+                                <span>80%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 80%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 成就荣誉 -->
+        <div id="achievements" class="tab-content">
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-title">🥇 技术博主</div>
+                    <div class="card-subtitle">50万+粉丝关注</div>
+                    <div class="card-desc">
+                        在微信公众号和各大平台分享技术知识，助力数万开发者成长。
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">🎓 技术讲师</div>
+                    <div class="card-subtitle">100+场在线分享</div>
+                    <div class="card-desc">
+                        主讲AI、Web开发等技术主题，在线视频播放量超500万。
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">💼 创业经历</div>
+                    <div class="card-subtitle">创办科技初创公司</div>
+                    <div class="card-desc">
+                        带领团队开发多个AI产品，累计融资数百万元。
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">🏆 开源贡献者</div>
+                    <div class="card-subtitle">GitHub明星项目</div>
+                    <div class="card-desc">
+                        维护多个高star开源项目，被数万开发者使用。
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">📚 著作出版</div>
+                    <div class="card-subtitle">AI开发实战指南</div>
+                    <div class="card-desc">
+                        著有《Python AI开发完全指南》，销售量超5万册。
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">🌍 国际认证</div>
+                    <div class="card-subtitle">多项专业认证</div>
+                    <div class="card-desc">
+                        获得Google、Amazon等国际科技公司的官方认证。
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 联系方式 -->
+        <div id="contact" class="tab-content">
+            <div class="cards-grid" style="grid-template-columns: 1fr;">
+                <div class="card">
+                    <div class="card-title">🤝 联系我</div>
+                    <div class="card-desc" style="margin: 30px 0;">
+                        <p style="margin-bottom: 20px;">
+                            欢迎通过以下方式与我取得联系，我会尽快回复！
+                        </p>
+                        <div style="font-size: 1.1rem; line-height: 2;">
+                            <p>📧 <strong>邮箱：</strong> <span onclick="copyText('444998969@163.com')" style="cursor: pointer; color: var(--primary-color);">444998969@163.com</span></p>
+                            <p>📱 <strong>微信：</strong> 长按下方二维码</p>
+                            <p>💼 <strong>LinkedIn：</strong> yanyappy</p>
+                        </div>
+                    </div>
+
+                    <div class="btn-group" style="margin-top: 30px;">
+                        <button class="btn btn-primary" onclick="openModal()">📱 显示微信二维码</button>
+                        <button class="btn btn-secondary" onclick="sendEmail()">📧 发送邮件</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="social-links">
+                <a href="https://github.com" target="_blank" class="social-btn" title="GitHub">🐙</a>
+                <a href="https://twitter.com" target="_blank" class="social-btn" title="Twitter">🐦</a>
+                <a href="https://linkedin.com" target="_blank" class="social-btn" title="LinkedIn">💼</a>
+                <a href="https://weibo.com" target="_blank" class="social-btn" title="微博">📢</a>
+                <a href="https://youtube.com" target="_blank" class="social-btn" title="YouTube">🎥</a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 微信二维码弹窗 -->
+    <div id="qrModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">✕</span>
+            <h2 style="margin-bottom: 20px;">扫一扫 关注我</h2>
+            <img src="qrcode.JPG" alt="微信公众号二维码" class="qrcode-img">
+            <p style="color: var(--text-light); margin-top: 15px;">
+                长按保存二维码或用微信扫描以上二维码
+            </p>
+        </div>
+    </div>
+
     <footer>
-        <div class="social-links">
-            <a href="https://github.com/yanyappy">GitHub</a>
-            <a href="https://linkedin.com/in/yanyappy">LinkedIn</a>
-        </div>
-        <div class="statistics">
-            <p>Total Projects: 10</p>
-            <p>Total Skills: 5</p>
-            <p>Total Achievements: 3</p>
-        </div>
+        <p>&copy; 2026 鄢光平 · 版权所有</p>
+        <p style="font-size: 0.85rem; margin-top: 10px; color: var(--text-light);">
+            由 HTML + CSS + JavaScript 精心打造 ✨
+        </p>
     </footer>
-    <script src="script.js"></script>
+
+    <script>
+        // 主题切换
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            const btn = document.querySelector('.theme-toggle');
+            btn.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+        }
+
+        // 初始化主题
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            const btn = document.querySelector('.theme-toggle');
+            btn.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+        });
+
+        // Tab切换
+        function switchTab(tabName) {
+            // 隐藏所有tab内容
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+
+            // 移除所有按钮的active类
+            const btns = document.querySelectorAll('.tab-btn');
+            btns.forEach(btn => btn.classList.remove('active'));
+
+            // 显示选中的tab
+            document.getElementById(tabName).classList.add('active');
+
+            // 给选中的按钮添加active类
+            event.target.classList.add('active');
+        }
+
+        // 模态框功能
+        const modal = document.getElementById('qrModal');
+
+        function openModal() {
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        window.onclick = function(event) {
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // 联系方式
+        function sendEmail() {
+            window.location.href = 'mailto:444998969@163.com?subject=来自个人主页的问候&body=你好，我是通过你的个人主页找到你的！';
+        }
+
+        // 复制文本
+        function copyText(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('已复制到剪贴板！');
+            }).catch(() => {
+                // 降级方案
+                const input = document.createElement('input');
+                input.value = text;
+                document.body.appendChild(input);
+                input.select();
+                document.execCommand('copy');
+                document.body.removeChild(input);
+                alert('已复制到剪贴板！');
+            });
+        }
+
+        // 添加页面加载完成后的动画
+        window.addEventListener('load', function() {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.animation = `fadeInUp 0.6s ease ${0.1 * index}s both`;
+            });
+        });
+    </script>
+
 </body>
 </html>
