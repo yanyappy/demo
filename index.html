@@ -1,255 +1,62 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的个人主页</title>
-    <style>
-        /* --- 全局样式 --- */
-        :root {
-            --primary-color: #07c160; /* 修改为微信绿 */
-            --text-color: #333;
-            --bg-color: #f3f4f6;
-            --card-bg: #ffffff;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        /* --- 卡片容器 --- */
-        .container {
-            background-color: var(--card-bg);
-            width: 90%;
-            max-width: 800px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            overflow: hidden;
-            text-align: center;
-            padding: 40px;
-            box-sizing: border-box;
-            transition: transform 0.3s ease;
-        }
-
-        .container:hover {
-            transform: translateY(-5px);
-        }
-
-        /* --- 头像 --- */
-        .avatar {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid var(--primary-color);
-            margin-bottom: 20px;
-            background-color: #e5e7eb;
-        }
-
-        /* --- 文字内容 --- */
-        h1 {
-            margin: 10px 0;
-            font-size: 2.2rem;
-            color: #1f2937;
-        }
-
-        .tagline {
-            color: #6b7280;
-            font-size: 1.1rem;
-            margin-bottom: 30px;
-        }
-
-        .bio {
-            color: #4b5563;
-            margin-bottom: 40px;
-            padding: 0 20px;
-        }
-
-        /* --- 按钮组 --- */
-        .btn-group {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            text-decoration: none;
-            padding: 12px 30px;
-            border-radius: 50px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: none;
-            font-size: 1rem;
-        }
-
-        .btn-wechat {
-            background-color: var(--primary-color);
-            color: white;
-            box-shadow: 0 4px 14px rgba(7, 193, 96, 0.4);
-        }
-
-        .btn-wechat:hover {
-            background-color: #06ad56;
-            transform: scale(1.05);
-        }
-
-        .btn-secondary {
-            background-color: transparent;
-            border: 2px solid #9ca3af;
-            color: #4b5563;
-        }
-
-        .btn-secondary:hover {
-            background-color: #f3f4f6;
-            color: #1f2937;
-        }
-
-        /* --- 二维码弹窗样式 --- */
-        .modal {
-            display: none; /* 默认隐藏 */
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5); /* 黑色半透明背景 */
-            backdrop-filter: blur(5px); /* 模糊效果 */
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            animation: zoomIn 0.3s ease;
-            max-width: 90%;
-        }
-
-        .qrcode-img {
-            width: 200px;
-            height: 200px;
-            object-fit: contain;
-            border: 1px solid #eee;
-            border-radius: 10px;
-        }
-
-        .close-btn {
-            margin-top: 15px;
-            color: #aaa;
-            cursor: pointer;
-            font-size: 1.2rem;
-            display: block;
-        }
-        .close-btn:hover { color: #000; }
-
-        @keyframes zoomIn {
-            from {transform: scale(0.5); opacity: 0;}
-            to {transform: scale(1); opacity: 1;}
-        }
-
-        /* --- 页脚 --- */
-        footer {
-            margin-top: 30px;
-            font-size: 0.8rem;
-            color: #9ca3af;
-        }
-
-        /* --- 手机端适配 --- */
-        @media (max-width: 600px) {
-            .container { padding: 30px 20px; width: 85%; }
-            h1 { font-size: 1.8rem; }
-            .btn-group { flex-direction: column; }
-            .btn { width: 100%; box-sizing: border-box; }
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
+    <title>Portfolio</title>
 </head>
 <body>
-
-    <div class="container">
-        <!-- 头像区域 -->
-        <img src="logo.png" alt="个人头像" class="avatar">
-        
-        <!-- 你的名字 -->
-        <h1>你好，我是 [鄢光平]</h1>
-        
-        <!-- 一句话介绍 -->
-        <p class="tagline">🚀 热爱生活 · 💻 探索技术 · ✍️ 记录美好</p>
-        
-        <!-- 详细介绍 -->
-        <div class="bio">
-            <p>
-                这里是我的个人空间。我是一名充满好奇心的探索者，
-                专注于 <b>个人创作</b> 与 <b>AI探索</b>。
-                长按下方二维码关注我，获取最新动态！
-            </p>
+    <nav>
+        <ul>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#achievements">Achievements</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><button id="dark-mode-toggle">Toggle Dark Mode</button></li>
+        </ul>
+    </nav>
+    <section id="hero">
+        <h1>Welcome to My Portfolio</h1>
+    </section>
+    <section id="projects">
+        <h2>Projects</h2>
+        <!-- Project details here -->
+    </section>
+    <section id="skills">
+        <h2>Skills</h2>
+        <div class="skill-bar">
+            <label for="skill1">HTML</label>
+            <progress id="skill1" value="80" max="100"></progress>
         </div>
-
-        <!-- 按钮组 -->
-        <div class="btn-group">
-            <!-- 按钮1：扫码关注公众号 -->
-            <button class="btn btn-wechat" onclick="openModal()">📱 扫码关注公众号</button>
-            <!-- 按钮2：发邮件 -->
-            <button class="btn btn-secondary" onclick="contactMe()">📧 联系我</button>
+        <div class="skill-bar">
+            <label for="skill2">CSS</label>
+            <progress id="skill2" value="75" max="100"></progress>
         </div>
-
-        <footer>
-            &copy; 2026 版权所有 · 由记事本生成
-        </footer>
-    </div>
-
-    <!-- 二维码弹窗结构 -->
-    <div id="qrModal" class="modal">
-        <div class="modal-content">
-            <!-- 这里放你的二维码图片 -->
-            <img src="qrcode.JPG" alt="微信公众号二维码" class="qrcode-img">
-            <h3>扫一扫 关注我</h3>
-            <span class="close-btn" onclick="closeModal()">✕ 关闭</span>
+        <div class="skill-bar">
+            <label for="skill3">JavaScript</label>
+            <progress id="skill3" value="70" max="100"></progress>
         </div>
-    </div>
-
-    <script>
-        // 获取弹窗元素
-        var modal = document.getElementById("qrModal");
-
-        // 打开弹窗
-        function openModal() {
-            modal.style.display = "flex";
-        }
-
-        // 关闭弹窗
-        function closeModal() {
-            modal.style.display = "none";
-        }
-
-        // 点击弹窗外部也可以关闭
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                closeModal();
-            }
-        }
-
-        // 联系我的功能
-        function contactMe() {
-            alert("感谢你的关注！\n请通过邮件联系我：444998969@163.com");
-        }
-    </script>
-
+    </section>
+    <section id="achievements">
+        <h2>Achievements</h2>
+        <!-- Achievements listing here -->
+    </section>
+    <section id="contact">
+        <h2>Contact</h2>
+        <!-- Contact form here -->
+    </section>
+    <footer>
+        <div class="social-links">
+            <a href="https://github.com/yanyappy">GitHub</a>
+            <a href="https://linkedin.com/in/yanyappy">LinkedIn</a>
+        </div>
+        <div class="statistics">
+            <p>Total Projects: 10</p>
+            <p>Total Skills: 5</p>
+            <p>Total Achievements: 3</p>
+        </div>
+    </footer>
+    <script src="script.js"></script>
 </body>
 </html>
-
-
